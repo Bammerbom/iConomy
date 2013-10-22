@@ -1,6 +1,8 @@
 iConomy Reloaded
 =======
 
-Original, untouched iConomy updated, bugfixed and improved.
+Original, almost untouched iConomy forked from iConomy 6.0.10b
+contains various bugfixes, updates and improvements to fit
+latest coding standards.
 
-Fully back-compatible with iConomy 6.0.9.
+Fully back-compatible with iConomy 6.0.10b.
