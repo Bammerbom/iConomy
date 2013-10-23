@@ -337,7 +337,7 @@ public class iConomy extends JavaPlugin implements Listener {
 							}
 						});
 					} catch (SQLException ex) {
-						System.out.println("[iConomy] Error issueing SQL query: " + ex);
+						System.out.println("[iConomy] Error issuing SQL query: " + ex);
 					} finally {
 						DbUtils.close(old);
 					}

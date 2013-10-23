@@ -57,11 +57,15 @@ public class Messaging {
     }
 
     public static String parse(String original) {
-        return colorize(original);
+        original = colorize(original);
+        return original.replaceAll("(&([a-z0-9]))", "\u00A7$2").replace("&&", "&");
 
     }
 
     public static String colorize(String string) {
+    	
+    	// TODO Not sure if works correctly. I guess so yes but need to check. At least once.
+    	
             /*if(!(sender instanceof Player))
                 string = string.replace("`r", "\033[1;31m")                  .replace("`R", "\033[0;31m")
                         .replace("`y", "\033[1;33m")                         .replace("`Y", "\033[0;33m")
@@ -102,7 +106,7 @@ public class Messaging {
                         .replace("<rose>", "\u00A7c")                        .replace("<pink>", "\u00A7d")
                         .replace("<yellow>", "\u00A7e")                      .replace("<white>", "\u00A7f");
 
-        return string.replace("&", "§");
+        return string;
     }
 
     /**

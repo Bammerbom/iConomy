@@ -37,7 +37,7 @@ public class Template {
         this.tpl.save(this.tplFile);
     }
 
-    public String get(String path) throws IOException {
+    public String get(String path) {
     	return this.tpl.getString(path);
     }
     

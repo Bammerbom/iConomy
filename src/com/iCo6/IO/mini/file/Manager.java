@@ -8,54 +8,20 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedHashSet;
+
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.concurrent.Semaphore;
 
-/**
-    Copyright (c) 2011, Nijiko Yonskai (@nijikokun) <nijikokun@gmail.com>
-    All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
-
-        1. Redistributions of source code must retain the above copyright
-            notice, this list of conditions and the following disclaimer.
-
-        2. Redistributions in binary form must reproduce the above copyright
-            notice, this list of conditions and the following disclaimer in the
-            documentation and/or other materials provided with the distribution.
-
-        3. Neither the name of Nijiko Yonskai nor the
-            names of its contributors may be used to endorse or promote products
-            derived from this software without specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL Nijiko Yonskai BE LIABLE FOR ANY
-    DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/**
- * FileManager
- * An actual File Management class for reading, writing, deleting, and creating files.
- * Because, Java sucks at actually doing anything.
- *
- * @author Nijikokun (@nijikokun) <nijikokun@gmail.com>
- */
 public final class Manager {
 
     private String directory = "";
     private String file = "";
     private String source = "";
     private LinkedList<String> lines = new LinkedList<String>();
+    private final Semaphore file_lock = new Semaphore(1);
 
     public Manager(String directory, String file, boolean create) {
         this.directory = directory;
@@ -189,11 +155,10 @@ public final class Manager {
 
     public boolean append(String directory, String file, String[] lines) {
         BufferedWriter output;
-        //String line;
-
         this.existsCreate(directory, file);
 
         try {
+            file_lock.acquire();
             output = new BufferedWriter(new FileWriter(new File(directory, file), true));
 
             try {
@@ -204,14 +169,18 @@ public final class Manager {
             } catch (IOException ex) {
                 this.log(Level.SEVERE, ex);
                 output.close();
+                file_lock.release();
                 return false;
             }
 
             output.close();
+            file_lock.release();
             return true;
         } catch (FileNotFoundException ex) {
             this.log(Level.SEVERE, ex);
         } catch (IOException ex) {
+            this.log(Level.SEVERE, ex);
+        } catch (InterruptedException ex) {
             this.log(Level.SEVERE, ex);
         }
 
@@ -234,6 +203,7 @@ public final class Manager {
         String line;
 
         try {
+            file_lock.acquire();
             input = new BufferedReader(new FileReader(new File(directory, file)));
 
             try {
@@ -247,11 +217,15 @@ public final class Manager {
                 input.close();
             } catch (IOException ex) {
                 this.log(Level.SEVERE, ex);
+                file_lock.release();
                 return false;
             }
 
+            file_lock.release();
             return true;
         } catch (FileNotFoundException ex) {
+            this.log(Level.SEVERE, ex);
+        } catch (InterruptedException ex) {
             this.log(Level.SEVERE, ex);
         }
 
@@ -284,6 +258,7 @@ public final class Manager {
         this.existsCreate(directory, file);
 
         try {
+            file_lock.acquire();
             output = new BufferedWriter(new FileWriter(new File(directory, file)));
 
             try {
@@ -296,13 +271,17 @@ public final class Manager {
             } catch (IOException ex) {
                 this.log(Level.SEVERE, ex);
                 output.close();
+                file_lock.release();
                 return false;
             }
 
+            file_lock.release();
             return true;
         } catch (FileNotFoundException ex) {
             this.log(Level.SEVERE, ex);
         } catch (IOException ex) {
+            this.log(Level.SEVERE, ex);
+        } catch (InterruptedException ex) {
             this.log(Level.SEVERE, ex);
         }
 
@@ -333,6 +312,7 @@ public final class Manager {
         File input = new File(directory, file);
 
         try {
+            file_lock.acquire();
             writer = new BufferedWriter(new FileWriter(input));
 
             try {
@@ -349,13 +329,15 @@ public final class Manager {
                 }
 
                 writer.close();
+                file_lock.release();
             } catch(IOException e) {
                 writer.close();
+                file_lock.release();
                 return false;
             }
 
-        } catch (Exception e) {
-            return false;
+        } catch (Exception ex) {
+            this.log(Level.SEVERE, ex);
         }
 
         return true;
@@ -378,6 +360,7 @@ public final class Manager {
         String line;
 
         try {
+            file_lock.acquire();
             reader = new BufferedReader(new FileReader(input));
 
             try {
@@ -388,6 +371,7 @@ public final class Manager {
                 reader.close();
             } catch(IOException e) {
                 reader.close();
+                file_lock.release();
                 return;
             }
 
@@ -402,12 +386,15 @@ public final class Manager {
                 writer.close();
             } catch(IOException e) {
                 writer.close();
+                file_lock.release();
                 return;
             }
-        } catch (Exception e) {
-            System.out.println(e);
-            return;
+
+            file_lock.release();
+        } catch (Exception ex) {
+            this.log(Level.SEVERE, ex);
         }
+
         return;
     }
 }
