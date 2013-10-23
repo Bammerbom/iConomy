@@ -25,6 +25,7 @@ import com.iCo6.IO.Database.Type;
 import com.iCo6.command.Handler;
 import com.iCo6.command.Parser;
 import com.iCo6.command.exceptions.InvalidUsage;
+import com.iCo6.handlers.Cleanup;
 import com.iCo6.handlers.Create;
 import com.iCo6.handlers.Empty;
 import com.iCo6.handlers.Give;
@@ -163,6 +164,10 @@ public class iConomy extends JavaPlugin implements Listener {
 		Commands.add("/money -e|empty", new Empty(this));
 		Commands.setPermission("empty", "iConomy.accounts.empty");
 		Commands.setHelp("empty", new String[] { "", "Empty database of accounts." });
+		
+		Commands.add("/money -clean|cleanup +pocet", new Cleanup(this));
+		Commands.setPermission("cleanup", "iConomy.cleanup");
+		Commands.setHelp("cleanup", new String[] { " [amount]", "Clean all accounts with lower holdings than specified." });
 
 		// Setup Database.
 		try {

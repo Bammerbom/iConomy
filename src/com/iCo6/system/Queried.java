@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.iCo6.Constants;
@@ -558,6 +559,53 @@ public class Queried {
 					try {
 						String t = Constants.Nodes.DatabaseTable.toString();
 						run.update(c, "DELETE FROM " + t + " WHERE balance=?", Constants.Nodes.Balance.getDouble());
+					} catch (SQLException ex) {
+						System.out.println("[iConomy] Error issueing SQL query: " + ex);
+					} finally {
+						DbUtils.close(c);
+					}
+				} catch (SQLException ex) {
+					System.out.println("[iConomy] Database Error: " + ex);
+				}
+			}
+		});
+	}
+
+	public static void cleanDatabase(CommandSender player, final double amount) {
+		if(useMiniDB() || useInventoryDB() || useOrbDB()) {
+			for(String index: database.getIndices().keySet()){
+				if(database.getArguments(index).getDouble("balance") < amount) {
+					database.removeIndex(index);
+					player.sendMessage("Purged an account ..." /*+ " with balance " + database.getArguments(index).getDouble("balance")*/);
+				}
+			}
+
+			database.update();
+
+			if (useInventoryDB())
+				for(Player p: iConomy.Server.getOnlinePlayers())
+					if(inventory.dataExists(p.getName()) && inventory.getBalance(p.getName()) < amount)
+						inventory.setBalance(p.getName(), 0);
+
+			if (useOrbDB())
+				for(Player p: iConomy.Server.getOnlinePlayers())
+					if(p.getExp() < amount)
+						p.setExp(0);
+
+			return;
+		}
+
+		Thrun.init(new Runnable() {
+			public void run() {
+				try {
+					QueryRunner run = new QueryRunner();
+					Connection c = iConomy.Database.getConnection();
+
+					try {
+						String t = Constants.Nodes.DatabaseTable.toString();
+						for (int i = 0; i < amount; i++) {
+							run.update(c, "DELETE FROM " + t + " WHERE balance=?", i);
+						}
 					} catch (SQLException ex) {
 						System.out.println("[iConomy] Error issueing SQL query: " + ex);
 					} finally {
