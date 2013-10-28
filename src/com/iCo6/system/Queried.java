@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -573,12 +574,17 @@ public class Queried {
 
 	public static void cleanDatabase(CommandSender player, final double amount) {
 		if(useMiniDB() || useInventoryDB() || useOrbDB()) {
+			int pocet = 0;
+			player.sendMessage("============ Cleanup Starts ============");
 			for(String index: database.getIndices().keySet()){
 				if(database.getArguments(index).getDouble("balance") < amount) {
+					player.sendMessage(ChatColor.GRAY + "Purging an account with holdings " + database.getArguments(index).getDouble("balance"));
 					database.removeIndex(index);
-					player.sendMessage("Purged an account ..." /*+ " with balance " + database.getArguments(index).getDouble("balance")*/);
+					pocet++;
 				}
 			}
+			player.sendMessage(ChatColor.BLUE + "Purged " + pocet + " accounts from the iConomy database.");
+			player.sendMessage("=========== Cleanup Complete ===========");
 
 			database.update();
 

@@ -31,9 +31,6 @@ public class Cleanup extends Handler {
         } catch(NumberFormatException e) {
             throw new InvalidUsage("Invalid <white>amount<rose>, must be double.");
         }
-
-        if(Double.isInfinite(amount) || Double.isNaN(amount))
-            throw new InvalidUsage("Invalid <white>amount<rose>, must be double.");
         
         Queried.cleanDatabase((Player)sender, amount);
 
