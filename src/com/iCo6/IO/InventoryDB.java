@@ -75,6 +75,7 @@ public class InventoryDB {
         
     }
 
+    @SuppressWarnings("deprecation")
     public double getBalance(String name) {
         if (iConomy.Server.getPlayer(name) != null && iConomy.Server.getPlayer(name).isOnline()) {
             return getBalance(iConomy.Server.getPlayer(name).getInventory().getContents());

@@ -17,6 +17,7 @@ public class Account {
         this.name = name;
     }
 
+    @SuppressWarnings("deprecation")
     public void showHoldings(boolean console) {
         if(console)
             return;

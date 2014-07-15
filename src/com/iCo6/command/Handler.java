@@ -33,7 +33,8 @@ public abstract class Handler {
         return sender.hasPermission("iconomy." + command);
     }
 
-    protected static Player getPlayer(CommandSender sender, String[] args, int index) {
+    @SuppressWarnings("deprecation")
+	protected static Player getPlayer(CommandSender sender, String[] args, int index) {
         if (args.length > index) {
             List<Player> players = sender.getServer().matchPlayer(args[index]);
 
