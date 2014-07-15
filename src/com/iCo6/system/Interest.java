@@ -2,15 +2,18 @@ package com.iCo6.system;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TimerTask;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.iCo6.Constants;
 import com.iCo6.iConomy;
+import com.iCo6.util.Messaging;
 import com.iCo6.util.Template;
 
 public class Interest extends TimerTask {
@@ -20,6 +23,7 @@ public class Interest extends TimerTask {
         Template = new Template(directory, "Messages.yml");
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void run() {
         Accounts Accounts = new Accounts();
@@ -28,7 +32,7 @@ public class Interest extends TimerTask {
         LinkedHashMap<String, HashMap<String, Object>> queries = new LinkedHashMap<String, HashMap<String, Object>>();
 
         if(Constants.Nodes.InterestOnline.getBoolean()) {
-            Player[] player = iConomy.Server.getOnlinePlayers();
+            Collection<? extends Player> player = iConomy.Server.getOnlinePlayers();
             
             for(Player p : player) {
                 players.add(p.getName());
@@ -79,6 +83,7 @@ public class Interest extends TimerTask {
 
             data.put("original", balance);
             data.put("balance", (balance + amount));
+            Bukkit.getPlayer(name).sendMessage(Messaging.parse("&7Za &6aktivitu &7v hre bolo na vas ucet pripisanych &2" + iConomy.format(amount)));
             queries.put(name, data);
         }
 
