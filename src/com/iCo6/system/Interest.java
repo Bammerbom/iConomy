@@ -17,10 +17,10 @@ import com.iCo6.util.Messaging;
 import com.iCo6.util.Template;
 
 public class Interest extends TimerTask {
-    Template Template = null;
+    Template template = null;
 
     public Interest(String directory) {
-        Template = new Template(directory, "Messages.yml");
+        template = new Template(directory, "Template.yml");
     }
 
     @SuppressWarnings("deprecation")
@@ -83,7 +83,14 @@ public class Interest extends TimerTask {
 
             data.put("original", balance);
             data.put("balance", (balance + amount));
-            Bukkit.getPlayer(name).sendMessage(Messaging.parse("&7Za &6aktivitu &7v hre bolo na vas ucet pripisanych &2" + iConomy.format(amount)));
+            
+            if(Constants.Nodes.InterestAnnounce.getBoolean()) {
+            	template.set(Template.Node.INTEREST_ANNOUNCEMENT);
+                template.add("amount", iConomy.format(amount));
+
+                Messaging.send(Bukkit.getPlayer(name), template.parse());
+            }
+            
             queries.put(name, data);
         }
 

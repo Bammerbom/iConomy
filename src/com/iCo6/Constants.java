@@ -54,6 +54,7 @@ public class Constants {
         Purging("System.Purging.Enabled", true),
 
         Interest("System.Interest.Enabled", false),
+        InterestAnnounce("System.Interest.Announce.Enabled", true),
         InterestOnline("System.Interest.Online", false),
         InterestTime("System.Interest.Interval.Seconds", 60),
         InterestPercentage("System.Interest.Amount.Percentage", 0.0),
