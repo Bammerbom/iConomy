@@ -1,50 +1,89 @@
 package com.iCo6.util.nbt;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
-/**
- * The {@code TAG_Compound} tag.
- * @author Graham Edgecombe
- */
-public final class CompoundTag extends Tag {
+public class CompoundTag extends Tag {
 
-    /**
-     * The value.
-     */
-    private final Map<String, Tag> value;
+	private Map<String, Tag> valueMap;
 
-    /**
-     * Creates the tag.
-     * @param name The name.
-     * @param value The value.
-     */
-    public CompoundTag(String name, Map<String, Tag> value) {
-        super(name);
-        this.value = Collections.unmodifiableMap(value);
-    }
+	public CompoundTag() {
+		this("");
+	}
+	
+	public CompoundTag(String name) {
+		this(name, new HashMap<String, Tag>());
+	}
+	
+	public CompoundTag(String name, Map<String, Tag> valueMap) {
+		super(name);
+		this.valueMap = valueMap;
+	}
 
-    @Override
-    public Map<String, Tag> getValue() {
-        return value;
-    }
+	@Override
+	public Map<String, Tag> getValue() {
+		return valueMap;
+	}
+	
+	public void setBoolean(String name, boolean value) {
+		setByte(name, (byte) (value ? 1 : 0));
+	}
 
-    @Override
-    public String toString() {
-        String name = getName();
-        String append = "";
-        if (name != null && !name.equals("")) {
-            append = "(\"" + this.getName() + "\")";
-        }
+	public void setByte(String name, byte value) {
+		valueMap.put(name, new ByteTag(name, value));
+	}
 
-        StringBuilder bldr = new StringBuilder();
-        bldr.append("TAG_Compound" + append + ": " + value.size() + " entries\r\n{\r\n");
-        for (Map.Entry<String, Tag> entry : value.entrySet()) {
-            bldr.append("   " + entry.getValue().toString().replaceAll("\r\n", "\r\n   ") + "\r\n");
-        }
-        bldr.append("}");
-        return bldr.toString();
-    }
+	public void setByteArray(String name, byte values[]) {
+		valueMap.put(name, new ByteArrayTag(name, values));
+	}
+	
+	public void setCompoundTag(String name, CompoundTag tag) {
+		tag.setName(name);
+		valueMap.put(name, tag);
+	}
 
+	public void setDouble(String name, double value) {
+		valueMap.put(name, new DoubleTag(name, value));
+	}
+
+	public void setFloat(String name, float value) {
+		valueMap.put(name, new FloatTag(name, value));
+	}
+
+	public void setInteger(String name, int value) {
+		valueMap.put(name, new IntTag(name, value));
+	}
+
+	public void setLong(String name, long value) {
+		valueMap.put(name, new LongTag(name, value));
+	}
+
+	public void setShort(String name, short value) {
+		valueMap.put(name, new ShortTag(name, value));
+	}
+
+	public void setString(String name, String value) {
+		valueMap.put(name, new StringTag(name, value));
+	}
+
+	public void setTag(String name, Tag value) {
+		value.setName(name);
+		valueMap.put(name, value);
+	}
+	
+	@Override
+	public String toString() {
+		String name = getName();
+		String append = "";
+		if (name != null && !name.equals("")) {
+			append = "(\"" + getName() + "\")";
+		}
+		StringBuilder bldr = new StringBuilder();
+		bldr.append("TAG_Compound" + append + ": " + valueMap.size() + " entries\r\n{\r\n");
+		for (Map.Entry<String, Tag> entry : valueMap.entrySet()) {
+			bldr.append("   " + entry.getValue().toString().replaceAll("\r\n", "\r\n   ") + "\r\n");
+		}
+		bldr.append("}");
+		return bldr.toString();
+	}
 }
-

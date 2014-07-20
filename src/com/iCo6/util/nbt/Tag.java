@@ -2,43 +2,32 @@ package com.iCo6.util.nbt;
 
 /**
  * Represents a single NBT tag.
- * @author Graham Edgecombe
  */
 public abstract class Tag {
 
-    /**
-     * The name of this tag.
-     */
-    private final String name;
+	private String name;
 
-    /**
-     * Creates the tag with no name.
-     */
-    public Tag() {
-        this("");
-    }
+	public Tag() {
+		this("");
+	}
+	
+	public Tag(String name) {
+		this.name = name;
+	}
 
-    /**
-     * Creates the tag with the specified name.
-     * @param name The name.
-     */
-    public Tag(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Gets the name of this tag.
-     * @return The name of this tag.
-     */
-    public final String getName() {
-        return name;
-    }
+	public Tag setName(String name) {
+		this.name = name;
+		return this;
+	}
 
-    /**
-     * Gets the value of this tag.
-     * @return The value of this tag.
-     */
-    public abstract Object getValue();
-
+	/**
+	 * Gets the value of this tag.
+	 *
+	 * @return The value of this tag.
+	 */
+	public abstract Object getValue();
 }
-

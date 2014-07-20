@@ -1,27 +1,20 @@
 package com.iCo6.util.nbt;
 
-/**
- * The {@code TAG_End} tag.
- * @author Graham Edgecombe
- */
-public final class EndTag extends Tag {
+public class EndTag extends Tag {
 
-    /**
-     * Creates the tag.
-     */
-    public EndTag() {
-        super();
-    }
+	private Object value = null;
 
-    @Override
-    public Object getValue() {
-        return null;
-    }
+	public EndTag() {
+		super("");
+	}
 
-    @Override
-    public String toString() {
-        return "TAG_End";
-    }
+	@Override
+	public Object getValue() {
+		return value;
+	}
 
+	@Override
+	public String toString() {
+		return "TAG_End";
+	}
 }
-

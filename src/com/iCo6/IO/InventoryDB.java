@@ -95,9 +95,8 @@ public class InventoryDB {
             NBTInputStream in = new NBTInputStream(new FileInputStream(new File(dataDir, name + ".dat")));
             CompoundTag tag = (CompoundTag) in.readTag();
             in.close();
-
-            @SuppressWarnings("unchecked")
-			ListTag<Tag> inventory = (ListTag<Tag>) tag.getValue().get("Inventory");
+            
+			ListTag inventory = (ListTag) tag.getValue().get("Inventory");
 
             ItemStack[] stacks = new ItemStack[40];
             for (int i = 0; i < inventory.getValue().size(); ++i) {
@@ -142,8 +141,7 @@ public class InventoryDB {
                 tagList.add(new CompoundTag("", tagMap));
             }
 
-            @SuppressWarnings({ "rawtypes", "unchecked" })
-			ListTag<Tag> inventory = new ListTag("Inventory", CompoundTag.class, tagList);
+			ListTag inventory = new ListTag("Inventory", CompoundTag.class, tagList);
 
             HashMap<String, Tag> tagCompound = new HashMap<String, Tag>(tag.getValue());
             tagCompound.put("Inventory", inventory);
