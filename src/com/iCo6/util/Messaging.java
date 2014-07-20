@@ -2,8 +2,8 @@ package com.iCo6.util;
 
 import java.util.LinkedHashMap;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class Messaging {
 
@@ -93,11 +93,9 @@ public class Messaging {
         Messaging.sender = sender;
     }
     
-    /*
     public static void send(Player player, String message) {
         player.sendMessage(parse(message));
     }
-	*/
 
     public static void send(CommandSender sender, String message) {
         sender.sendMessage(parse(message));
