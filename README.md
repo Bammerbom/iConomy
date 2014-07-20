@@ -7,4 +7,4 @@ latest coding standards.
 
 Fully back-compatible with iConomy 6.0.10b.
 
-For quick download grab the iConomy.jar from precompiled folder!
+*For quick download grab the iConomy.jar from precompiled folder!*
