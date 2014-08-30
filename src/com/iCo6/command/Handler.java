@@ -29,7 +29,6 @@ public abstract class Handler {
 
 
     protected boolean hasPermissions(CommandSender sender, String command) {
-        //return plugin.hasPermissions(sender, command);
         return sender.hasPermission("iconomy." + command);
     }
 
