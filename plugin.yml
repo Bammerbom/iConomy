@@ -1,12 +1,12 @@
 name: iConomy
 main: com.iCo6.iConomy
-version: 6.0.12
+version: 6.0.13
 commands:
     money:
       aliases: [iConomy, iCo]
       description: Distribute, Check, Use Currency.
 description: Simple, easy, and intuitive economy for Minecraft.
-authors: [Nijikokun, SpaceManiac, craftik7]
+authors: [Nijikokun, SpaceManiac, kangarko]
 permissions:
     iConomy.*:
         default: op

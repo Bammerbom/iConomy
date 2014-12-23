@@ -12,41 +12,40 @@ import com.iCo6.util.Messaging;
 
 public class Help extends Handler {
 
-    public Help(iConomy plugin) {
-        super(plugin, iConomy.Template);
-    }
+	public Help(iConomy plugin) {
+		super(plugin, iConomy.Template);
+	}
 
-    @Override
-    public boolean perform(CommandSender sender, LinkedHashMap<String, Argument> arguments) throws InvalidUsage {
-        if(!hasPermissions(sender, "help")) {
+	@Override
+	public boolean perform(CommandSender sender, LinkedHashMap<String, Argument> arguments) throws InvalidUsage {
+		if(!hasPermissions(sender, "help")) {
 			template.noPermission(sender);
 			return false;
-        }
+		}
 
-        // TODO: add support for checking help on single command.
+		// TODO: add support for checking help on single command.
 
-        Messaging.send(sender, "`w ");
-        Messaging.send(sender, "`w iConomy (`yCelty`w)");
-        Messaging.send(sender, "`w ");
-        Messaging.send(sender, "`S [] `wRequired, `S() `sOptional");
-        Messaging.send(sender, "`w ");
+		Messaging.send(sender, " ");
+		Messaging.send(sender, "&f iConomy (&eCelty&f)");
+		Messaging.send(sender, "&f ");
+		Messaging.send(sender, "&8 [] &fRequired, &8() &7Optional");
+		Messaging.send(sender, " ");
 
-        for (String action : plugin.Commands.getHelp().keySet()) {
-            if(!hasPermissions(sender, action))
-                continue;
+		for (String action : plugin.Commands.getHelp().keySet()) {
+			if(!hasPermissions(sender, action))
+				continue;
 
-            String description = plugin.Commands.getHelp(action)[1];
-            String command = "";
+			String description = plugin.Commands.getHelp(action)[1];
+			String command = "";
 
-            if(action.equalsIgnoreCase("money") || action.equalsIgnoreCase("money+"))
-                command = "/money `w" + plugin.Commands.getHelp(action)[0] + "`s";
-            else
-                command = "/money `w" + action + plugin.Commands.getHelp(action)[0] + "`s";
+			if(action.equalsIgnoreCase("money") || action.equalsIgnoreCase("money+"))
+				command = "/money &f" + plugin.Commands.getHelp(action)[0] + "&8";
+			else
+				command = "/money &f" + action + plugin.Commands.getHelp(action)[0] + "&8";
+			command = command.replace("[", "&8[&8").replace("]", "&8]").replace("(", "&8(");
+			Messaging.send(sender, String.format(" %1$s &e-&e %2$s", command, description));
+		}
 
-            command = command.replace("[", "`S[`s").replace("]", "`S]").replace("(", "`S(");
-            Messaging.send(sender, String.format("   %1$s `Y-`y %2$s", command, description));
-        }
-
-        return false;
-    }
+		return false;
+	}
 }

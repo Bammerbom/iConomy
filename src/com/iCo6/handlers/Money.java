@@ -36,7 +36,7 @@ public class Money extends Handler {
 
         if(name.equals("0")) {
             if(isConsole(sender)) {
-                Messaging.send(sender, "`rCannot check money on non-living organism.");
+                Messaging.send(sender, "&rCannot check money on non-living organism.");
                 return false;
             }
 

@@ -23,7 +23,6 @@ public class Interest extends TimerTask {
         template = new Template(directory, "Template.yml");
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void run() {
         Accounts Accounts = new Accounts();

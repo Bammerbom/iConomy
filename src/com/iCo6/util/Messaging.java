@@ -2,6 +2,8 @@ package com.iCo6.util;
 
 import java.util.LinkedHashMap;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -56,15 +58,9 @@ public class Messaging {
         return original;
     }
 
-    public static String parse(String original) {
-        original = colorize(original);
-        return original.replaceAll("(&([a-z0-9]))", "\u00A7$2").replace("&&", "&");
-
-    }
-
-    public static String colorize(String string) {
-    	
-        string = string.replace("<r>", "")
+    public static String colorize(String msg) {
+    	msg = ChatColor.translateAlternateColorCodes('&', msg);
+        msg = msg.replace("<r>", "")
                         .replace("<black>", "\u00A70")                       .replace("<navy>", "\u00A71")
                         .replace("<green>", "\u00A72")                       .replace("<teal>", "\u00A73")
                         .replace("<red>", "\u00A74")                         .replace("<purple>", "\u00A75")
@@ -74,7 +70,7 @@ public class Messaging {
                         .replace("<rose>", "\u00A7c")                        .replace("<pink>", "\u00A7d")
                         .replace("<yellow>", "\u00A7e")                      .replace("<white>", "\u00A7f");
 
-        return string;
+        return msg;
     }
 
     /**
@@ -94,16 +90,16 @@ public class Messaging {
     }
     
     public static void send(Player player, String message) {
-        player.sendMessage(parse(message));
+        player.sendMessage(colorize(message));
     }
 
     public static void send(CommandSender sender, String message) {
-        sender.sendMessage(parse(message));
+        sender.sendMessage(colorize(message));
     }
 
     public static void send(String message) {
         if (Messaging.sender != null) {
-            sender.sendMessage(parse(message));
+            sender.sendMessage(colorize(message));
         }
     }
 }

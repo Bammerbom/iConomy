@@ -60,30 +60,30 @@ public class Template {
         if(this.currentKey == null)
             return null;
 
-        return Messaging.parse(Messaging.colorize(this.raw(this.currentKey)));
+        return Messaging.colorize(Messaging.colorize(this.raw(this.currentKey)));
     }
 
     public String parse() {
         if(this.currentKey == null)
             return null;
 
-        return Messaging.parse(Messaging.colorize(Messaging.argument(this.raw(this.currentKey), this.arguments)));
+        return Messaging.colorize(Messaging.colorize(Messaging.argument(this.raw(this.currentKey), this.arguments)));
     }
 
     public String color(String key) {
-        return Messaging.parse(Messaging.colorize(this.raw(key)));
+        return Messaging.colorize(Messaging.colorize(this.raw(key)));
     }
 
     public String color(Node key) {
-        return Messaging.parse(Messaging.colorize(this.raw(key.getKey())));
+        return Messaging.colorize(Messaging.colorize(this.raw(key.getKey())));
     }
 
     public String parse(String key, Object[] argument, Object[] points) {
-        return Messaging.parse(Messaging.colorize(Messaging.argument(this.raw(key), argument, points)));
+        return Messaging.colorize(Messaging.colorize(Messaging.argument(this.raw(key), argument, points)));
     }
 
     public String parse(String key, String line, Object[] argument, Object[] points) {
-        return Messaging.parse(Messaging.colorize(Messaging.argument(this.raw(key, line), argument, points)));
+        return Messaging.colorize(Messaging.colorize(Messaging.argument(this.raw(key, line), argument, points)));
     }
 
     public String parseRaw() {

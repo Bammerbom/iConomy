@@ -85,7 +85,7 @@ public class iConomy extends JavaPlugin implements Listener {
 
 		// Update for 6.0.11
 		try {
-			if(Template.get("error.permission") == null){
+			if(Template.get("error.permission") == null) {
 				Template.save("error.permission", "<rose>Insufficient permission.");
 			}
 		} catch (IOException e) {
