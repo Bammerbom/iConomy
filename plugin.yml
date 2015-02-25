@@ -6,7 +6,7 @@ commands:
       aliases: [iConomy, iCo]
       description: Distribute, Check, Use Currency.
 description: Simple, easy, and intuitive economy for Minecraft.
-authors: [Nijikokun, SpaceManiac, kangarko]
+authors: [Nijikokun, SpaceManiac, kangarko, TWSSYesterday]
 permissions:
     iConomy.*:
         default: op
